@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLAN.CSharp.Plugins", "TerrLAN.CSharp.Plugins.csproj", "{A9BB245D-C04D-738D-023D-04F21A21BAAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLAN.CSharp", "TerrLAN.CSharp.csproj", "{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLAN.CSharp.Editor", "TerrLAN.CSharp.Editor.csproj", "{EAE71736-D0AA-741E-5C5F-4C7F89448599}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9BB245D-C04D-738D-023D-04F21A21BAAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9BB245D-C04D-738D-023D-04F21A21BAAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BB245D-C04D-738D-023D-04F21A21BAAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BB245D-C04D-738D-023D-04F21A21BAAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE71736-D0AA-741E-5C5F-4C7F89448599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE71736-D0AA-741E-5C5F-4C7F89448599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE71736-D0AA-741E-5C5F-4C7F89448599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE71736-D0AA-741E-5C5F-4C7F89448599}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
