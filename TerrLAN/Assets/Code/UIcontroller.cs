@@ -16,18 +16,6 @@ public class UIcontroller : MonoBehaviour {
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
         modelPosition.transform.parent = this.gameObject.transform;
-        /*
-        foreach(Transform t in building.GetComponentsInChildren<Transform>())
-        {
-            if(t.tag == "teleportModel")
-            {
-                model = t.gameObject;
-                break;
-            }
-        }
-        model.transform.position = modelPosition.transform.position;
-        model.transform.parent = modelPosition.transform;
-        modelScale = model.transform.localScale;*/
     }
 	
 	// Update is called once per frame
@@ -35,6 +23,17 @@ public class UIcontroller : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.T))
         {
+            Ray downRay = new Ray(this.gameObject.transform.position, Vector3.down);
+            RaycastHit hit;
+            Physics.Raycast(downRay, out hit);
+            while(hit.collider.gameObject.tag == "Player")
+            {
+                Physics.Raycast(downRay, out hit);
+            }
+            if(hit.collider.gameObject.transform.GetChild(0).tag == "teleportModel")
+            {
+                model = hit.collider.gameObject.transform.GetChild(0).gameObject;
+            }
             Materialize(ref model);
         }
 
@@ -116,21 +115,26 @@ public class UIcontroller : MonoBehaviour {
             Physics.Raycast(floorRay, out hit);
         }
         GameObject floor = hit.collider.gameObject;
-        Physics.Raycast(ray, out hit);
-        if(hit.collider.gameObject.tag == "teleportModel")
+        RaycastHit[] hitArray;
+        hitArray = Physics.RaycastAll(ray);
+        foreach(RaycastHit h in hitArray)
         {
-            GameObject pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            pointer.transform.position = hit.point;
-            pointer.transform.parent = model.transform;
-            model.transform.rotation = Quaternion.identity;
-            Vector3 output = new Vector3(pointer.transform.position.x - hit.collider.gameObject.transform.position.x, pointer.transform.position.y - hit.collider.gameObject.transform.position.y, pointer.transform.position.z - hit.collider.gameObject.transform.position.z);
-            output.x = output.x * building.transform.localScale.x;
-            output.y = output.y * building.transform.localScale.y;
-            output.z = output.z * building.transform.localScale.z;
-            player.transform.position = new Vector3(floor.transform.position.x + output.x, player.transform.position.y, floor.transform.position.z + output.z);
-            Destroy(pointer);
+            if (h.collider.gameObject.tag == "teleportModel")
+            {
+                GameObject pointer = new GameObject();
+                pointer.transform.position = h.point;
+                pointer.transform.parent = model.transform;
+                model.transform.rotation = Quaternion.identity;
+                Vector3 output = new Vector3(pointer.transform.position.x - h.collider.gameObject.transform.position.x, pointer.transform.position.y - h.collider.gameObject.transform.position.y, pointer.transform.position.z - h.collider.gameObject.transform.position.z);
+                output.x = output.x * building.transform.localScale.x;
+                output.y = output.y * building.transform.localScale.y;
+                output.z = output.z * building.transform.localScale.z;
+                player.transform.position = new Vector3(floor.transform.position.x + output.x, player.transform.position.y, floor.transform.position.z + output.z);
+                Destroy(pointer);
+            }
         }
         ChildMeshToggle(ref model);
         PositionToggle(ref model);
+        model = null;
     }
 }
