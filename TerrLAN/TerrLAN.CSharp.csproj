@@ -58,14 +58,17 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>Assets\plugins\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>Assets\plugins\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>Assets\plugins\System.Drawing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +80,28 @@
   <ItemGroup>
     <Compile Include="Assets\Code\FloorChange.cs" />
     <Compile Include="Assets\Code\UIcontroller.cs" />
+    <Compile Include="Assets\Scripts\DB.cs" />
+    <Compile Include="Assets\Scripts\Devices\AdvancedFirewall.cs" />
+    <Compile Include="Assets\Scripts\Devices\AdvancedRouter.cs" />
+    <Compile Include="Assets\Scripts\Devices\AppServer.cs" />
+    <Compile Include="Assets\Scripts\Devices\DatabaseServer.cs" />
+    <Compile Include="Assets\Scripts\Devices\Device.cs" />
+    <Compile Include="Assets\Scripts\Devices\FileServer.cs" />
+    <Compile Include="Assets\Scripts\Devices\Firewall.cs" />
+    <Compile Include="Assets\Scripts\Devices\Layer3Switch.cs" />
+    <Compile Include="Assets\Scripts\Devices\Printer.cs" />
+    <Compile Include="Assets\Scripts\Devices\Router.cs" />
+    <Compile Include="Assets\Scripts\Devices\Switch.cs" />
+    <Compile Include="Assets\Scripts\Devices\WebServer.cs" />
+    <Compile Include="Assets\Scripts\Devices\WindowsWorkstation.cs" />
+    <Compile Include="Assets\Scripts\Devices\WorkstationLinux.cs" />
+    <Compile Include="Assets\Scripts\Devices\WorkstationWindows.cs" />
+    <Compile Include="Assets\Scripts\LookAtPlayer.cs" />
+    <Compile Include="Assets\Scripts\Model.cs" />
+    <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\SelectionMove.cs" />
+    <Compile Include="Assets\Scripts\StartUpCode.cs" />
+    <Compile Include="Assets\Scripts\Terrarium.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
@@ -84,5 +109,5 @@
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

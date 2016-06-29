@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLAN.CSharp.Plugins", "TerrLAN.CSharp.Plugins.csproj", "{A9BB245D-C04D-738D-023D-04F21A21BAAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLAN.CSharp", "TerrLAN.CSharp.csproj", "{7E7D9001-EBA6-0466-494D-5CEDCB9584B0}"
