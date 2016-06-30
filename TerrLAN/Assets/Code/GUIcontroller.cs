@@ -31,7 +31,8 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             buttonList[p].transform.parent = panel.transform;
             buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y*p);
             buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
-            buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(buttonList[p].GetComponentInChildren<Text>().text); });
+            string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
+            buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp); });
             buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
         }
 	}
@@ -44,18 +45,24 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         }
         if(placingObject != null)
         {
+            if(Input.GetMouseButtonDown(0))
+            {
+                GameObject tempPlaced = Instantiate(placingObject);
+                Destroy(placingObject);
+                placingObject = null;
+            }
             Ray ray = new Ray(player.GetComponentInChildren<Camera>().transform.position, player.GetComponentInChildren<Camera>().transform.forward);
             RaycastHit hit;
             Physics.Raycast(ray, out hit);
-            placingObject.transform.position = hit.transform.position;
+            placingObject.transform.position = hit.point;
         }
 	}
 
     void LoadResource(string path)
     {
-        Debug.Log("Resources loaded");
+        Debug.Log("Resources loaded:" + path);
         GameObject temp = Resources.Load(path) as GameObject;
-        placingObject = temp;
+        placingObject = Instantiate(Resources.Load(path) as GameObject);
         ToggleGUI();
     }
 
@@ -80,12 +87,6 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         }
         Cursor.visible = !Cursor.visible;
         player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;
-    }
-
-    public GameObject PlacingObject
-    {
-        get { return placingObject; }
-        set { placingObject = value; }
     }
 
 }
