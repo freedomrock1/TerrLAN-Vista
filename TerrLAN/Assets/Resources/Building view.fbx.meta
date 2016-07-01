@@ -1,0 +1,287 @@
+fileFormatVersion: 2
+guid: 278f38d3128fa934bbc3294eb4270a75
+timeCreated: 1464913461
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Camera
+    100004: Exterior frame
+    100006: floor.01
+    100008: floor.02
+    100010: floor.03
+    100012: floor.04
+    100014: floor.05
+    100016: floor.B1
+    100018: floor5.router junction box
+    100020: floorB1.router junction box
+    100022: Front siding.1
+    100024: Front siding.2
+    100026: Front siding.3
+    100028: Front siding.4
+    100030: Front siding.5
+    100032: Front siding.B1
+    100034: Lamp
+    100036: Left siding.1
+    100038: Left siding.2
+    100040: Left siding.3
+    100042: Left siding.4
+    100044: Left siding.5
+    100046: Left siding.B1
+    100048: pipe.router floorB1 to cloud
+    100050: pipe.routers
+    100052: Plane
+    100054: Right siding.1
+    100056: Right siding.2
+    100058: Right siding.3
+    100060: Right siding.4
+    100062: Right siding.5
+    100064: Right siding.B1
+    100066: router.floor1
+    100068: router.floor2
+    100070: router.floor3
+    100072: router.floor4
+    100074: router.floor5
+    100076: router.floorB1
+    100078: walls.01
+    100080: walls.02
+    100082: walls.03
+    100084: walls.04
+    100086: walls.05
+    100088: walls.B1
+    400000: //RootNode
+    400002: Camera
+    400004: Exterior frame
+    400006: floor.01
+    400008: floor.02
+    400010: floor.03
+    400012: floor.04
+    400014: floor.05
+    400016: floor.B1
+    400018: floor5.router junction box
+    400020: floorB1.router junction box
+    400022: Front siding.1
+    400024: Front siding.2
+    400026: Front siding.3
+    400028: Front siding.4
+    400030: Front siding.5
+    400032: Front siding.B1
+    400034: Lamp
+    400036: Left siding.1
+    400038: Left siding.2
+    400040: Left siding.3
+    400042: Left siding.4
+    400044: Left siding.5
+    400046: Left siding.B1
+    400048: pipe.router floorB1 to cloud
+    400050: pipe.routers
+    400052: Plane
+    400054: Right siding.1
+    400056: Right siding.2
+    400058: Right siding.3
+    400060: Right siding.4
+    400062: Right siding.5
+    400064: Right siding.B1
+    400066: router.floor1
+    400068: router.floor2
+    400070: router.floor3
+    400072: router.floor4
+    400074: router.floor5
+    400076: router.floorB1
+    400078: walls.01
+    400080: walls.02
+    400082: walls.03
+    400084: walls.04
+    400086: walls.05
+    400088: walls.B1
+    2300000: Exterior frame
+    2300002: floor.01
+    2300004: floor.02
+    2300006: floor.03
+    2300008: floor.04
+    2300010: floor.05
+    2300012: floor.B1
+    2300014: floor5.router junction box
+    2300016: floorB1.router junction box
+    2300018: Front siding.1
+    2300020: Front siding.2
+    2300022: Front siding.3
+    2300024: Front siding.4
+    2300026: Front siding.5
+    2300028: Front siding.B1
+    2300030: Left siding.1
+    2300032: Left siding.2
+    2300034: Left siding.3
+    2300036: Left siding.4
+    2300038: Left siding.5
+    2300040: Left siding.B1
+    2300042: pipe.router floorB1 to cloud
+    2300044: pipe.routers
+    2300046: Plane
+    2300048: Right siding.1
+    2300050: Right siding.2
+    2300052: Right siding.3
+    2300054: Right siding.4
+    2300056: Right siding.5
+    2300058: Right siding.B1
+    2300060: router.floor1
+    2300062: router.floor2
+    2300064: router.floor3
+    2300066: router.floor4
+    2300068: router.floor5
+    2300070: router.floorB1
+    2300072: walls.01
+    2300074: walls.02
+    2300076: walls.03
+    2300078: walls.04
+    2300080: walls.05
+    2300082: walls.B1
+    3300000: Exterior frame
+    3300002: floor.01
+    3300004: floor.02
+    3300006: floor.03
+    3300008: floor.04
+    3300010: floor.05
+    3300012: floor.B1
+    3300014: floor5.router junction box
+    3300016: floorB1.router junction box
+    3300018: Front siding.1
+    3300020: Front siding.2
+    3300022: Front siding.3
+    3300024: Front siding.4
+    3300026: Front siding.5
+    3300028: Front siding.B1
+    3300030: Left siding.1
+    3300032: Left siding.2
+    3300034: Left siding.3
+    3300036: Left siding.4
+    3300038: Left siding.5
+    3300040: Left siding.B1
+    3300042: pipe.router floorB1 to cloud
+    3300044: pipe.routers
+    3300046: Plane
+    3300048: Right siding.1
+    3300050: Right siding.2
+    3300052: Right siding.3
+    3300054: Right siding.4
+    3300056: Right siding.5
+    3300058: Right siding.B1
+    3300060: router.floor1
+    3300062: router.floor2
+    3300064: router.floor3
+    3300066: router.floor4
+    3300068: router.floor5
+    3300070: router.floorB1
+    3300072: walls.01
+    3300074: walls.02
+    3300076: walls.03
+    3300078: walls.04
+    3300080: walls.05
+    3300082: walls.B1
+    4300000: floor5.router junction box
+    4300002: pipe.router floorB1 to cloud
+    4300004: floorB1.router junction box
+    4300006: Right siding.B1
+    4300008: Right siding.1
+    4300010: Right siding.2
+    4300012: Right siding.3
+    4300014: Right siding.4
+    4300016: Right siding.5
+    4300018: Left siding.5
+    4300020: Left siding.4
+    4300022: Left siding.3
+    4300024: Left siding.2
+    4300026: Left siding.1
+    4300028: Left siding.B1
+    4300030: Front siding.5
+    4300032: Front siding.4
+    4300034: Front siding.3
+    4300036: Front siding.2
+    4300038: Front siding.1
+    4300040: Front siding.B1
+    4300042: Exterior frame
+    4300044: Plane
+    4300046: walls.B1
+    4300048: floor.B1
+    4300050: router.floorB1
+    4300052: router.floor5
+    4300054: floor.05
+    4300056: walls.05
+    4300058: walls.04
+    4300060: floor.04
+    4300062: router.floor4
+    4300064: router.floor3
+    4300066: floor.03
+    4300068: walls.03
+    4300070: walls.02
+    4300072: floor.02
+    4300074: router.floor2
+    4300076: router.floor1
+    4300078: floor.01
+    4300080: walls.01
+    4300082: pipe.routers
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
