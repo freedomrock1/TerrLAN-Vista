@@ -11,7 +11,6 @@ public class UIcontroller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        building = GameObject.FindGameObjectWithTag("Building");
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
@@ -69,7 +68,12 @@ public class UIcontroller : MonoBehaviour {
             Ray ray = new Ray(this.gameObject.transform.position, Vector3.down);
             RaycastHit hit;
             Physics.Raycast(ray, out hit);
-            for(int i=0;i<hit.collider.gameObject.transform.childCount;i++)
+            while (hit.collider.gameObject.tag == "Player")
+            {
+                Physics.Raycast(ray, out hit);
+            }
+            /*
+            for (int i=0;i<hit.collider.gameObject.transform.childCount;i++)
             {
                 if(hit.collider.gameObject.transform.GetChild(i).tag == "teleportModel")
                 {
@@ -77,6 +81,7 @@ public class UIcontroller : MonoBehaviour {
                     break;
                 }
             }
+            */
             model.transform.parent = null;
             model.transform.position = modelPosition.transform.position;
             model.transform.rotation = modelPosition.transform.rotation;
@@ -109,12 +114,18 @@ public class UIcontroller : MonoBehaviour {
         Ray floorRay = new Ray(player.transform.position, Vector3.down);
         RaycastHit hit = new RaycastHit();
         Physics.Raycast(floorRay, out hit);
-        if(hit.collider.gameObject.tag == "teleportModel")
+        while(hit.collider.gameObject.tag == "teleportModel")
         {
             floorRay.origin = hit.point;
             Physics.Raycast(floorRay, out hit);
         }
         GameObject floor = hit.collider.gameObject;
+        GameObject temp = hit.collider.gameObject;
+        while(temp.transform.parent != null)
+        {
+            temp = temp.transform.parent.gameObject;
+        }
+        building = temp;
         RaycastHit[] hitArray;
         hitArray = Physics.RaycastAll(ray);
         foreach(RaycastHit h in hitArray)
@@ -133,8 +144,6 @@ public class UIcontroller : MonoBehaviour {
                 Destroy(pointer);
             }
         }
-        ChildMeshToggle(ref model);
-        PositionToggle(ref model);
-        model = null;
+        Materialize(ref model);
     }
 }

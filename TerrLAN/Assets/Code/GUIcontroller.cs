@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 
     public GameObject player;
-    public GameObject panel;
+    public GameObject scrollView;
     public GameObject button;
     GameObject placingObject;
     FileInfo[] fileInfo;
@@ -27,13 +27,16 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         buttonList = new GameObject[fileInfo.Length];
         for(int p=0;p<fileInfo.Length;p++)
         {
-            buttonList[p] = Instantiate(button);
-            buttonList[p].transform.parent = panel.transform;
-            buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y*p);
-            buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
-            string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
-            buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp); });
-            buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
+            if(fileInfo[p].Extension != ".meta")
+            {
+                buttonList[p] = Instantiate(button);
+                buttonList[p].transform.parent = scrollView.transform;
+                buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y * p);
+                buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
+                string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
+                buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp); });
+                buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
+            }
         }
 	}
 	
@@ -71,6 +74,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         for (int i = 0; i < this.gameObject.transform.childCount; i++)
         {
             this.gameObject.transform.GetChild(i).gameObject.SetActive(!this.gameObject.transform.GetChild(i).gameObject.activeSelf);
+            //ToggleActiveGUI(this.gameObject.transform.GetChild(i).gameObject);
         }
         if (Time.timeScale == 0)
         {
@@ -89,4 +93,12 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;
     }
 
+    void ToggleActiveGUI(GameObject element)
+    {
+        element.SetActive(!element.activeSelf);
+        for (int i = 0; i < element.gameObject.transform.childCount; i++)
+        {
+            ToggleActiveGUI(this.gameObject.transform.GetChild(i).gameObject);
+        }
+    }
 }
