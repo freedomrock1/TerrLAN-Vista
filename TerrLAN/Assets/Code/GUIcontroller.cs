@@ -33,8 +33,9 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 buttonList[p].transform.parent = scrollView.transform;
                 buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y * p);
                 buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
-                string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
-                buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp); });
+                //string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
+                int temp = p;
+                buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp, fileInfo); });
                 buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
             }
         }
@@ -62,11 +63,33 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         }
 	}
 
-    void LoadResource(string path)
+    void LoadResource(int index, FileInfo[] fileInfo)
     {
-        Debug.Log("Resources loaded:" + path);
-        GameObject temp = Resources.Load(path) as GameObject;
-        placingObject = Instantiate(Resources.Load(path) as GameObject);
+        if(fileInfo[index].Extension == ".unitypackage")
+        {
+            Debug.Log("file:///" + fileInfo[index].DirectoryName.Replace("\\","/") + "/" + fileInfo[index].Name);
+            //AssetBundle temp = AssetBundle.LoadFromFile(fileInfo[index].DirectoryName + "/" + fileInfo[index].Name);
+            WWW www = new WWW("file:///" + fileInfo[index].DirectoryName.Replace("\\", "/") + "/" + fileInfo[index].Name);
+            AssetBundle temp = www.assetBundle;
+            Object[] objList = www.assetBundle.LoadAllAssets<Object>();
+            GameObject[] gameObjectList = new GameObject[objList.Length];
+            for(int i=0;i<objList.Length;i++)
+            {
+                gameObjectList[i] = Instantiate(objList[i]) as GameObject;
+            }
+            foreach(GameObject g in gameObjectList)
+            {
+                if(g.tag == "building")
+                {
+                    placingObject = Instantiate(g);
+                }
+            }
+        }
+        else
+        {
+            GameObject temp = Resources.Load(fileInfo[index].Name.Replace(fileInfo[index].Extension, null)) as GameObject;
+            placingObject = Instantiate(Resources.Load(fileInfo[index].Name.Replace(fileInfo[index].Extension, null)) as GameObject);
+        }
         ToggleGUI();
     }
 
