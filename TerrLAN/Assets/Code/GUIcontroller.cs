@@ -38,6 +38,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
             }
         }
+        scrollView.GetComponent<RectTransform>().sizeDelta = new Vector2(scrollView.GetComponent<RectTransform>().sizeDelta.x, (buttonList.Length+5) * button.GetComponent<RectTransform>().sizeDelta.y);
 	}
 	
 	// Update is called once per frame
