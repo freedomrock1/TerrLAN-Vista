@@ -11,6 +11,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
     public GameObject player;
     public GameObject scrollView;
     public GameObject button;
+    float yOffset;
     GameObject placingObject;
     FileInfo[] fileInfo;
     GameObject[] buttonList;
@@ -20,6 +21,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 	void Start () {
         Cursor.lockState = CursorLockMode.Locked;
         RefreshFileList();
+        yOffset = 0;
 	}
 	
 	// Update is called once per frame
@@ -35,11 +37,25 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 GameObject tempPlaced = Instantiate(placingObject);
                 Destroy(placingObject);
                 placingObject = null;
+                yOffset = 0;
             }
             Ray ray = new Ray(player.GetComponentInChildren<Camera>().transform.position, player.GetComponentInChildren<Camera>().transform.forward);
             RaycastHit hit;
             Physics.Raycast(ray, out hit);
-            placingObject.transform.position = hit.point;
+            placingObject.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            float mouse = Input.GetAxis("Mouse ScrollWheel");
+            if (mouse != 0)
+            {
+                if (mouse > 0)
+                {
+                    yOffset += 0.1f;
+                }
+                else if(mouse < 0)
+                {
+                    yOffset -= 0.1f;
+                }
+            }
+            placingObject.transform.position = new Vector3(placingObject.transform.position.x, placingObject.transform.position.y + yOffset, placingObject.transform.position.z);
         }
 	}
 
