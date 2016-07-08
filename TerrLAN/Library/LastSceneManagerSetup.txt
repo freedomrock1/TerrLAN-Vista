@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Dereck.unity
+- path: Assets/lan-vista.unity
   isLoaded: 1
   isActive: 1
