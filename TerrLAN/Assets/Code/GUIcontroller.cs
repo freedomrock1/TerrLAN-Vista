@@ -3,7 +3,6 @@ using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
 using System.IO;
 using UnityEngine.UI;
-using UnityEditor;
 
 
 public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
@@ -20,9 +19,10 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 	// Use this for initialization
 	void Start () {
         Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1;
         RefreshFileList();
         yOffset = 0;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

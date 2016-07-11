@@ -1,16 +1,10 @@
 fileFormatVersion: 2
 guid: d016b06b9089e9f47a9c07853a3831ad
-timeCreated: 1467236272
+timeCreated: 1468264190
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences:
-  - WindowsWorkstation: {fileID: 109208, guid: 803852f538ca2c444b5cc2a7bba51647, type: 2}
-  - LinixWorkstation: {fileID: 190536, guid: 621e4177ee669c34aa26530f008dda02, type: 2}
-  - Printer: {fileID: 170156, guid: 0ae638656c35e3f41ab75befcc8e7608, type: 2}
-  - Router: {fileID: 103494, guid: 1afabbf850729d340b7b5322e85ff302, type: 2}
-  - Switch: {fileID: 127142, guid: 74e1af7f1d448d340bb2e3eb4c4ac7c0, type: 2}
-  - Firewall: {fileID: 195106, guid: e04c0e8c1106c064b82f2d44340aebd6, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
