@@ -35,27 +35,36 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             if(Input.GetMouseButtonDown(0))
             {
                 GameObject tempPlaced = Instantiate(placingObject);
+                BoxCollider[] colliderList;
+                colliderList = tempPlaced.GetComponentsInChildren<BoxCollider>();
+                foreach (BoxCollider b in colliderList)
+                {
+                    b.enabled = true;
+                }
                 Destroy(placingObject);
                 placingObject = null;
                 yOffset = 0;
             }
-            Ray ray = new Ray(player.GetComponentInChildren<Camera>().transform.position, player.GetComponentInChildren<Camera>().transform.forward);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            placingObject.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-            float mouse = Input.GetAxis("Mouse ScrollWheel");
-            if (mouse != 0)
+            else
             {
-                if (mouse > 0)
+                Ray ray = new Ray(player.GetComponentInChildren<Camera>().transform.position, player.GetComponentInChildren<Camera>().transform.forward);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit);
+                placingObject.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                float mouse = Input.GetAxis("Mouse ScrollWheel");
+                if (mouse != 0)
                 {
-                    yOffset += 0.1f;
+                    if (mouse > 0)
+                    {
+                        yOffset += 0.1f;
+                    }
+                    else if (mouse < 0)
+                    {
+                        yOffset -= 0.1f;
+                    }
                 }
-                else if(mouse < 0)
-                {
-                    yOffset -= 0.1f;
-                }
+                placingObject.transform.position = new Vector3(placingObject.transform.position.x, placingObject.transform.position.y + yOffset, placingObject.transform.position.z);
             }
-            placingObject.transform.position = new Vector3(placingObject.transform.position.x, placingObject.transform.position.y + yOffset, placingObject.transform.position.z);
         }
 	}
 
@@ -70,12 +79,24 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             foreach (GameObject g in objList)
             {
                 placingObject = Instantiate(g);
+                BoxCollider[] colliderList;
+                colliderList = placingObject.GetComponentsInChildren<BoxCollider>();
+                foreach(BoxCollider b in colliderList)
+                {
+                    b.enabled = false;
+                }
             }
         }
         else
         {
             GameObject temp = Resources.Load(fileInfo[index].Name.Replace(fileInfo[index].Extension, null)) as GameObject;
             placingObject = Instantiate(Resources.Load(fileInfo[index].Name.Replace(fileInfo[index].Extension, null)) as GameObject);
+            BoxCollider[] colliderList;
+            colliderList = placingObject.GetComponentsInChildren<BoxCollider>();
+            foreach (BoxCollider b in colliderList)
+            {
+                b.enabled = false;
+            }
         }
         ToggleGUI();
     }
