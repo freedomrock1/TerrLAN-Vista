@@ -71,16 +71,14 @@ public class UIcontroller : MonoBehaviour {
             {
                 Physics.Raycast(ray, out hit);
             }
-            /*
             for (int i=0;i<hit.collider.gameObject.transform.childCount;i++)
             {
-                if(hit.collider.gameObject.transform.GetChild(i).tag == "teleportModel")
+                if(hit.collider.gameObject.transform.GetChild(i).name.Contains("Model") | hit.collider.gameObject.transform.GetChild(i).tag == "teleportModel")
                 {
                     model = hit.collider.gameObject.transform.GetChild(i).gameObject;
                     break;
                 }
             }
-            */
             model.transform.parent = null;
             model.transform.position = modelPosition.transform.position;
             model.transform.rotation = modelPosition.transform.rotation;
@@ -129,7 +127,7 @@ public class UIcontroller : MonoBehaviour {
         hitArray = Physics.RaycastAll(ray);
         foreach(RaycastHit h in hitArray)
         {
-            if (h.collider.gameObject.tag == "teleportModel")
+            if (h.collider.gameObject.name.Contains("Model") | h.collider.gameObject.tag.Contains("Model"))
             {
                 GameObject pointer = new GameObject();
                 pointer.transform.position = h.point;
@@ -139,6 +137,7 @@ public class UIcontroller : MonoBehaviour {
                 output.x = output.x * building.transform.localScale.x;
                 output.y = output.y * building.transform.localScale.y;
                 output.z = output.z * building.transform.localScale.z;
+                Debug.Log("Attempting teleport");
                 player.transform.position = new Vector3(floor.transform.position.x + output.x, player.transform.position.y, floor.transform.position.z + output.z);
                 Destroy(pointer);
             }

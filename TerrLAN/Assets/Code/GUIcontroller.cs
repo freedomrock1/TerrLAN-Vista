@@ -39,7 +39,11 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 colliderList = tempPlaced.GetComponentsInChildren<BoxCollider>();
                 foreach (BoxCollider b in colliderList)
                 {
-                    b.enabled = true;
+                    if(b.gameObject.name.Contains("Model"))
+                    {
+                        b.enabled = false;
+                    }
+                    else b.enabled = true;
                 }
                 Destroy(placingObject);
                 placingObject = null;
