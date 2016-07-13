@@ -29,7 +29,7 @@ public class UIcontroller : MonoBehaviour {
             {
                 Physics.Raycast(downRay, out hit);
             }
-            if(hit.collider.gameObject.transform.GetChild(0).tag == "teleportModel")
+            if(hit.collider.gameObject.transform.GetChild(0).tag == "teleportModel" | hit.collider.gameObject.transform.GetChild(0).name.Contains("Model"))
             {
                 model = hit.collider.gameObject.transform.GetChild(0).gameObject;
             }
@@ -43,7 +43,6 @@ public class UIcontroller : MonoBehaviour {
                 Teleport(this.gameObject);
             }
         }
-	
 	}
 
     void Materialize(ref GameObject model)
