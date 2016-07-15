@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class UIcontroller : MonoBehaviour {
 
+    public GameObject minimapPosition;
     GameObject model;
     GameObject modelPosition;
     GameObject building; //requires a building in the scene tagged as "Building"
     Vector3 modelScale;
+    List<GameObject> collisions;
     bool isMoved = false;
+    bool mapVisible = false;
+    GameObject minimap = null;
+    GameObject minimapBuilding = null;
 
 	// Use this for initialization
 	void Start () {
+        collisions = new List<GameObject>();
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
@@ -19,6 +27,37 @@ public class UIcontroller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(mapVisible)
+        {
+            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+            if(!hit.collider.gameObject.name.Contains("Floor"))
+            {
+                UnloadMinimap(ref minimap, ref minimapBuilding);
+                mapVisible = false;
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+            if(hit.collider.gameObject.name.Contains("Floor"))
+            {
+                LoadMinimap(ref minimap, ref minimapBuilding);
+                mapVisible = true;
+            }
+            else
+            {
+
+            }
+        }
 
         if(Input.GetKeyDown(KeyCode.T))
         {
@@ -44,6 +83,34 @@ public class UIcontroller : MonoBehaviour {
             }
         }
 	}
+
+    void LoadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
+    {
+        Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+        if(hit.collider.gameObject.name.Contains("Floor"))
+        {
+            minimap = Instantiate(hit.collider.gameObject.transform.GetChild(0).gameObject);
+            GameObject temp = hit.collider.gameObject;
+            while(temp.transform.parent != null)
+            {
+                temp = temp.transform.parent.gameObject;
+            }
+            minimapBuilding = temp;
+            Debug.Log("minimap assigned");
+        }
+        minimap.transform.parent = minimapPosition.transform;
+        minimap.transform.position = minimapPosition.transform.position;
+        minimap.layer = 5;
+    }
+
+    void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
+    {
+        Destroy(minimap);
+        minimapBuilding = null;
+        Debug.Log("Minimap unassigned");
+    }
 
     void Materialize(ref GameObject model)
     {
@@ -137,11 +204,22 @@ public class UIcontroller : MonoBehaviour {
                 output.x = output.x * building.transform.localScale.x;
                 output.y = output.y * building.transform.localScale.y;
                 output.z = output.z * building.transform.localScale.z;
-                Debug.Log("Attempting teleport");
                 player.transform.position = new Vector3(floor.transform.position.x + output.x, player.transform.position.y, floor.transform.position.z + output.z);
                 Destroy(pointer);
             }
         }
         Materialize(ref model);
+    }
+
+    void OnTriggerEnter (Collider c)
+    {
+        collisions.Add(c.gameObject);
+        Debug.Log("Added to colliders");
+    }
+
+    void OnTriggerExit (Collider c)
+    {
+        collisions.Remove(c.gameObject);
+        Debug.Log("Removed from colliders");
     }
 }
