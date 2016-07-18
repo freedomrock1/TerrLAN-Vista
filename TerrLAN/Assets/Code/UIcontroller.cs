@@ -6,11 +6,12 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class UIcontroller : MonoBehaviour {
 
     public GameObject minimapPosition;
+    public GameObject feetPosition;
     GameObject model;
     GameObject modelPosition;
     GameObject building; //requires a building in the scene tagged as "Building"
     Vector3 modelScale;
-    List<GameObject> collisions;
+    List<Collider> collisions = new List<Collider>();
     bool isMoved = false;
     bool mapVisible = false;
     GameObject minimap = null;
@@ -18,7 +19,6 @@ public class UIcontroller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        collisions = new List<GameObject>();
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
@@ -27,39 +27,38 @@ public class UIcontroller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Collider[] collisions = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
 
+        bool touchingFloor = false;
+        foreach (Collider c in collisions)
+        {
+            if (c.gameObject.name.Contains("Floor"))
+            {
+                touchingFloor = true;
+            }
+        }
         if(mapVisible)
         {
-            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if(!hit.collider.gameObject.name.Contains("Floor"))
+            if(!touchingFloor)
             {
                 UnloadMinimap(ref minimap, ref minimapBuilding);
                 mapVisible = false;
             }
             else
             {
-
+                //recalculate current position
             }
         }
         else
         {
-            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if(hit.collider.gameObject.name.Contains("Floor"))
+            if(touchingFloor)
             {
                 LoadMinimap(ref minimap, ref minimapBuilding);
                 mapVisible = true;
             }
-            else
-            {
-
-            }
         }
 
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Ray downRay = new Ray(this.gameObject.transform.position, Vector3.down);
             RaycastHit hit;
@@ -82,23 +81,30 @@ public class UIcontroller : MonoBehaviour {
                 Teleport(this.gameObject);
             }
         }
-	}
+    }
 
     void LoadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
     {
-        Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit);
-        if(hit.collider.gameObject.name.Contains("Floor"))
+        foreach(Collider c in collisions)
         {
-            minimap = Instantiate(hit.collider.gameObject.transform.GetChild(0).gameObject);
-            GameObject temp = hit.collider.gameObject;
-            while(temp.transform.parent != null)
+            if (c.gameObject.name.Contains("Floor"))
             {
-                temp = temp.transform.parent.gameObject;
+                foreach(Transform t in c.gameObject.transform.GetComponentsInChildren<Transform>())
+                {
+                    if(t.gameObject.name.Contains("Model"))
+                    {
+                        minimap = Instantiate(t.gameObject);
+                        break;
+                    }
+                }
+                GameObject temp = c.gameObject;
+                while (temp.transform.parent != null)
+                {
+                    temp = temp.transform.parent.gameObject;
+                }
+                minimapBuilding = temp;
+                Debug.Log("minimap assigned");
             }
-            minimapBuilding = temp;
-            Debug.Log("minimap assigned");
         }
         minimap.transform.parent = minimapPosition.transform;
         minimap.transform.position = minimapPosition.transform.position;
@@ -209,17 +215,5 @@ public class UIcontroller : MonoBehaviour {
             }
         }
         Materialize(ref model);
-    }
-
-    void OnTriggerEnter (Collider c)
-    {
-        collisions.Add(c.gameObject);
-        Debug.Log("Added to colliders");
-    }
-
-    void OnTriggerExit (Collider c)
-    {
-        collisions.Remove(c.gameObject);
-        Debug.Log("Removed from colliders");
     }
 }
