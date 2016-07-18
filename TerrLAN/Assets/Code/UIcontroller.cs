@@ -27,7 +27,12 @@ public class UIcontroller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Collider[] collisions = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
+        collisions.Clear();
+        Collider[] temp = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
+        foreach(Collider co in temp)
+        {
+            collisions.Add(co);
+        }
 
         bool touchingFloor = false;
         foreach (Collider c in collisions)
@@ -91,7 +96,7 @@ public class UIcontroller : MonoBehaviour {
             {
                 foreach(Transform t in c.gameObject.transform.GetComponentsInChildren<Transform>())
                 {
-                    if(t.gameObject.name.Contains("Model"))
+                    if(t.gameObject.name.Contains("Model") | t.gameObject.tag.Contains("Model"))
                     {
                         minimap = Instantiate(t.gameObject);
                         break;
