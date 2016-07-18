@@ -111,9 +111,14 @@ public class UIcontroller : MonoBehaviour {
                 Debug.Log("minimap assigned");
             }
         }
+        ChildMeshToggle(ref minimap);
         minimap.transform.parent = minimapPosition.transform;
         minimap.transform.position = minimapPosition.transform.position;
-        minimap.layer = 5;
+        minimap.transform.localScale = new Vector3(1, .4f, 1);
+        foreach(Transform t in minimap.transform.GetComponentsInChildren<Transform>())
+        {
+            t.gameObject.layer = 8;
+        }
     }
 
     void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
