@@ -24,7 +24,7 @@ public class UIcontroller : MonoBehaviour {
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
-        modelPosition.transform.parent = this.gameObject.transform;
+        modelPosition.transform.SetParent(this.gameObject.transform, false);
     }
 	
 	// Update is called once per frame
@@ -114,6 +114,7 @@ public class UIcontroller : MonoBehaviour {
                     if(t.gameObject.name.Contains("Model") | t.gameObject.tag.Contains("Model"))
                     {
                         minimap = Instantiate(t.gameObject);
+                        //minimap.transform.localScale = t.gameObject.transform.localScale;
                         break;
                     }
                 }
@@ -127,16 +128,16 @@ public class UIcontroller : MonoBehaviour {
             }
         }
         ChildMeshToggle(ref minimap);
-        minimap.transform.parent = minimapPosition.transform;
+        minimap.transform.SetParent(minimapPosition.transform, false);
         minimap.transform.position = minimapPosition.transform.position;
-        minimap.transform.localScale = new Vector3(1, .4f, 1);
+        //minimap.transform.localScale = new Vector3(1, .4f, 1);
         foreach(Transform t in minimap.transform.GetComponentsInChildren<Transform>())
         {
             t.gameObject.layer = 8;
         }
         placementMarker = Instantiate(placementSphere);
         placementMarker.layer = 8;
-        placementMarker.transform.parent = minimap.transform;
+        placementMarker.transform.SetParent(minimap.transform, false);
     }
 
     void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
@@ -190,7 +191,7 @@ public class UIcontroller : MonoBehaviour {
             isMoved = false;
             RaycastHit hit;
             Physics.Raycast(new Ray(model.transform.position, Vector3.down), out hit);
-            model.transform.parent = hit.collider.gameObject.transform;
+            model.transform.SetParent(hit.collider.gameObject.transform, false);
             model.transform.position = hit.point;
             model.transform.rotation = Quaternion.identity;
             model = null;
@@ -233,7 +234,7 @@ public class UIcontroller : MonoBehaviour {
             {
                 GameObject pointer = new GameObject();
                 pointer.transform.position = h.point;
-                pointer.transform.parent = model.transform;
+                pointer.transform.SetParent(model.transform, false);
                 model.transform.rotation = Quaternion.identity;
                 Vector3 output = new Vector3(pointer.transform.position.x - h.collider.gameObject.transform.position.x, pointer.transform.position.y - h.collider.gameObject.transform.position.y, pointer.transform.position.z - h.collider.gameObject.transform.position.z);
                 output.x = output.x * building.transform.localScale.x;
