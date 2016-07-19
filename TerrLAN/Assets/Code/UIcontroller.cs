@@ -54,19 +54,19 @@ public class UIcontroller : MonoBehaviour {
             else
             {
                 Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-                RaycastHit hit;
-                Physics.Raycast(ray, out hit);
-                while(!hit.collider.gameObject.name.Contains("Floor"))
+                RaycastHit[] hitList = Physics.RaycastAll(ray);
+                foreach(RaycastHit hit in hitList)
                 {
-                    ray.origin = hit.point;
-                    Physics.Raycast(ray, out hit);
+                    if(hit.collider.gameObject.name.Contains("Floor") && Vector3.Distance(this.gameObject.transform.position, hit.point) < 10)
+                    {
+                        Vector3 output = new Vector3(hit.point.x - hit.collider.gameObject.transform.position.x, hit.point.y - hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
+                        Debug.Log(output.x + "," + output.y + "," + output.z);
+                        output.x = output.x / minimapBuilding.transform.localScale.x;
+                        output.y = output.y / minimapBuilding.transform.localScale.y;
+                        output.z = output.z / minimapBuilding.transform.localScale.z;
+                        placementMarker.transform.position = new Vector3(minimap.transform.position.x + output.x, minimap.transform.position.y, minimap.transform.position.z + output.z);
+                    }
                 }
-                Vector3 output = new Vector3(hit.point.x-hit.collider.gameObject.transform.position.x, hit.point.y-hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
-                Debug.Log(output.x + "," + output.y + "," + output.z);
-                output.x = output.x / minimapBuilding.transform.localScale.x;
-                output.y = output.y / minimapBuilding.transform.localScale.y;
-                output.z = output.z / minimapBuilding.transform.localScale.z;
-                placementMarker.transform.position = new Vector3(minimap.transform.position.x+output.x, minimap.transform.position.y, minimap.transform.position.z+output.z);
             }
         }
         else
@@ -114,7 +114,8 @@ public class UIcontroller : MonoBehaviour {
                     if(t.gameObject.name.Contains("Model") | t.gameObject.tag.Contains("Model"))
                     {
                         minimap = Instantiate(t.gameObject);
-                        //minimap.transform.localScale = t.gameObject.transform.localScale;
+                        //minimap.transform.localScale = t.gameObject.transform.localScale; enable this line when the input models are their expected scale
+                        minimap.transform.localScale = new Vector3(0.1932911f, 0.04328918f, 0.1932911f); //at that time, disable this line.
                         break;
                     }
                 }
