@@ -16,6 +16,8 @@ public class UIcontroller : MonoBehaviour {
     bool mapVisible = false;
     GameObject minimap = null;
     GameObject minimapBuilding = null;
+    public GameObject placementSphere;
+    GameObject placementMarker;
 
 	// Use this for initialization
 	void Start () {
@@ -51,7 +53,20 @@ public class UIcontroller : MonoBehaviour {
             }
             else
             {
-                //recalculate current position
+                Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit);
+                while(!hit.collider.gameObject.name.Contains("Floor"))
+                {
+                    ray.origin = hit.point;
+                    Physics.Raycast(ray, out hit);
+                }
+                Vector3 output = new Vector3(hit.point.x-hit.collider.gameObject.transform.position.x, hit.point.y-hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
+                Debug.Log(output.x + "," + output.y + "," + output.z);
+                output.x = output.x / minimapBuilding.transform.localScale.x;
+                output.y = output.y / minimapBuilding.transform.localScale.y;
+                output.z = output.z / minimapBuilding.transform.localScale.z;
+                placementMarker.transform.position = new Vector3(minimap.transform.position.x+output.x, minimap.transform.position.y, minimap.transform.position.z+output.z);
             }
         }
         else
@@ -119,12 +134,16 @@ public class UIcontroller : MonoBehaviour {
         {
             t.gameObject.layer = 8;
         }
+        placementMarker = Instantiate(placementSphere);
+        placementMarker.layer = 8;
+        placementMarker.transform.parent = minimap.transform;
     }
 
     void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
     {
         Destroy(minimap);
         minimapBuilding = null;
+        Destroy(placementMarker);
         Debug.Log("Minimap unassigned");
     }
 
