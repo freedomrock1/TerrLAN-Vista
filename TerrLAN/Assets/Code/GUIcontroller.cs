@@ -110,7 +110,6 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         for (int i = 0; i < this.gameObject.transform.childCount; i++)
         {
             this.gameObject.transform.GetChild(i).gameObject.SetActive(!this.gameObject.transform.GetChild(i).gameObject.activeSelf);
-            //ToggleActiveGUI(this.gameObject.transform.GetChild(i).gameObject);
         }
         if (Time.timeScale == 0)
         {
@@ -154,7 +153,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             {
                 actualLength++;
                 buttonList[p] = Instantiate(button);
-                buttonList[p].transform.parent = scrollView.transform;
+                buttonList[p].transform.SetParent(scrollView.transform, false);
                 buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y * actualLength);
                 buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
                 //string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);

@@ -6,60 +6,79 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class UIcontroller : MonoBehaviour {
 
     public GameObject minimapPosition;
+    public GameObject feetPosition;
     GameObject model;
     GameObject modelPosition;
     GameObject building; //requires a building in the scene tagged as "Building"
     Vector3 modelScale;
-    List<GameObject> collisions;
+    List<Collider> collisions = new List<Collider>();
     bool isMoved = false;
     bool mapVisible = false;
     GameObject minimap = null;
     GameObject minimapBuilding = null;
+    public GameObject placementSphere;
+    GameObject placementMarker;
 
 	// Use this for initialization
 	void Start () {
-        collisions = new List<GameObject>();
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
-        modelPosition.transform.parent = this.gameObject.transform;
+        modelPosition.transform.SetParent(this.gameObject.transform, false);
     }
 	
 	// Update is called once per frame
 	void Update () {
+        collisions.Clear();
+        Collider[] temp = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
+        foreach(Collider co in temp)
+        {
+            collisions.Add(co);
+        }
 
+        bool touchingFloor = false;
+        foreach (Collider c in collisions)
+        {
+            if (c.gameObject.name.Contains("Floor"))
+            {
+                touchingFloor = true;
+            }
+        }
         if(mapVisible)
         {
-            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if(!hit.collider.gameObject.name.Contains("Floor"))
+            if(!touchingFloor)
             {
                 UnloadMinimap(ref minimap, ref minimapBuilding);
                 mapVisible = false;
             }
             else
             {
-
+                Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+                RaycastHit[] hitList = Physics.RaycastAll(ray);
+                foreach(RaycastHit hit in hitList)
+                {
+                    if(hit.collider.gameObject.name.Contains("Floor") && Vector3.Distance(this.gameObject.transform.position, hit.point) < 10)
+                    {
+                        Vector3 output = new Vector3(hit.point.x - hit.collider.gameObject.transform.position.x, hit.point.y - hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
+                        Debug.Log(output.x + "," + output.y + "," + output.z);
+                        output.x = output.x / minimapBuilding.transform.localScale.x;
+                        output.y = output.y / minimapBuilding.transform.localScale.y;
+                        output.z = output.z / minimapBuilding.transform.localScale.z;
+                        placementMarker.transform.position = new Vector3(minimap.transform.position.x + output.x, minimap.transform.position.y, minimap.transform.position.z + output.z);
+                    }
+                }
             }
         }
         else
         {
-            Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if(hit.collider.gameObject.name.Contains("Floor"))
+            if(touchingFloor)
             {
                 LoadMinimap(ref minimap, ref minimapBuilding);
                 mapVisible = true;
             }
-            else
-            {
-
-            }
         }
 
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Ray downRay = new Ray(this.gameObject.transform.position, Vector3.down);
             RaycastHit hit;
@@ -82,33 +101,51 @@ public class UIcontroller : MonoBehaviour {
                 Teleport(this.gameObject);
             }
         }
-	}
+    }
 
     void LoadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
     {
-        Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit);
-        if(hit.collider.gameObject.name.Contains("Floor"))
+        foreach(Collider c in collisions)
         {
-            minimap = Instantiate(hit.collider.gameObject.transform.GetChild(0).gameObject);
-            GameObject temp = hit.collider.gameObject;
-            while(temp.transform.parent != null)
+            if (c.gameObject.name.Contains("Floor"))
             {
-                temp = temp.transform.parent.gameObject;
+                foreach(Transform t in c.gameObject.transform.GetComponentsInChildren<Transform>())
+                {
+                    if(t.gameObject.name.Contains("Model") | t.gameObject.tag.Contains("Model"))
+                    {
+                        minimap = Instantiate(t.gameObject);
+                        //minimap.transform.localScale = t.gameObject.transform.localScale; enable this line when the input models are their expected scale
+                        minimap.transform.localScale = new Vector3(0.1932911f, 0.04328918f, 0.1932911f); //at that time, disable this line.
+                        break;
+                    }
+                }
+                GameObject temp = c.gameObject;
+                while (temp.transform.parent != null)
+                {
+                    temp = temp.transform.parent.gameObject;
+                }
+                minimapBuilding = temp;
+                Debug.Log("minimap assigned");
             }
-            minimapBuilding = temp;
-            Debug.Log("minimap assigned");
         }
-        minimap.transform.parent = minimapPosition.transform;
+        ChildMeshToggle(ref minimap);
+        minimap.transform.SetParent(minimapPosition.transform, false);
         minimap.transform.position = minimapPosition.transform.position;
-        minimap.layer = 5;
+        //minimap.transform.localScale = new Vector3(1, .4f, 1);
+        foreach(Transform t in minimap.transform.GetComponentsInChildren<Transform>())
+        {
+            t.gameObject.layer = 8;
+        }
+        placementMarker = Instantiate(placementSphere);
+        placementMarker.layer = 8;
+        placementMarker.transform.SetParent(minimap.transform, false);
     }
 
     void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
     {
         Destroy(minimap);
         minimapBuilding = null;
+        Destroy(placementMarker);
         Debug.Log("Minimap unassigned");
     }
 
@@ -155,7 +192,7 @@ public class UIcontroller : MonoBehaviour {
             isMoved = false;
             RaycastHit hit;
             Physics.Raycast(new Ray(model.transform.position, Vector3.down), out hit);
-            model.transform.parent = hit.collider.gameObject.transform;
+            model.transform.SetParent(hit.collider.gameObject.transform, false);
             model.transform.position = hit.point;
             model.transform.rotation = Quaternion.identity;
             model = null;
@@ -198,7 +235,7 @@ public class UIcontroller : MonoBehaviour {
             {
                 GameObject pointer = new GameObject();
                 pointer.transform.position = h.point;
-                pointer.transform.parent = model.transform;
+                pointer.transform.SetParent(model.transform, false);
                 model.transform.rotation = Quaternion.identity;
                 Vector3 output = new Vector3(pointer.transform.position.x - h.collider.gameObject.transform.position.x, pointer.transform.position.y - h.collider.gameObject.transform.position.y, pointer.transform.position.z - h.collider.gameObject.transform.position.z);
                 output.x = output.x * building.transform.localScale.x;
@@ -209,17 +246,5 @@ public class UIcontroller : MonoBehaviour {
             }
         }
         Materialize(ref model);
-    }
-
-    void OnTriggerEnter (Collider c)
-    {
-        collisions.Add(c.gameObject);
-        Debug.Log("Added to colliders");
-    }
-
-    void OnTriggerExit (Collider c)
-    {
-        collisions.Remove(c.gameObject);
-        Debug.Log("Removed from colliders");
     }
 }

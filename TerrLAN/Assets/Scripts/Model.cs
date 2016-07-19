@@ -142,24 +142,24 @@ namespace Terr01
             // add devices
 
             // room 1
-            network.Add(makeDevice("bob", DeviceType.WorkStation, -48, -60));
-            network.Add(makeDevice("bob1", DeviceType.WorkStation, -46, -60));
-            network.Add(makeDevice("bob2", DeviceType.WorkStation, -45, -60));
-            network.Add(makeDevice("bob2", DeviceType.WorkStation, -41, -60));
-            network.Add(makeDevice("bob3", DeviceType.WorkStation, -39, -60));
-            network.Add(makeDevice("bob4", DeviceType.WorkStation, -33, -60));
-            network.Add(makeDevice("bob5", DeviceType.WorkStation, -33, -57));
-            network.Add(makeDevice("bob5", DeviceType.WorkStation, -31, -57));
-
-            // room 2
-            network.Add(makeDevice("bob", DeviceType.WorkStation, -32, -56));
-            network.Add(makeDevice("bob1", DeviceType.WorkStation, -33, -56));
-            network.Add(makeDevice("bob2", DeviceType.WorkStation, -33, -54));
-            network.Add(makeDevice("bob2", DeviceType.WorkStation, -32, -54));
-            network.Add(makeDevice("bob3", DeviceType.WorkStation, -32, -53));
-            network.Add(makeDevice("bob4", DeviceType.WorkStation, -33, -53));
-            network.Add(makeDevice("bob5", DeviceType.WorkStation, -33, -51));
-            network.Add(makeDevice("bob5", DeviceType.WorkStation, -32, -51));
+            network.Add(makeDevice("bob", DeviceType.WorkStation, 6, -7));
+            network.Add(makeDevice("bob1", DeviceType.WorkStation, 7, -7));
+            network.Add(makeDevice("bob2", DeviceType.WorkStation, 6, -5));
+            network.Add(makeDevice("bob2", DeviceType.WorkStation, 7, -5));
+            network.Add(makeDevice("bob3", DeviceType.WorkStation, 7, -4));
+            network.Add(makeDevice("bob4", DeviceType.WorkStation, 6, -4));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 6, -2));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 7, -2));
+            network.Add(makeDevice("bob", DeviceType.WorkStation, 7, -1));
+            network.Add(makeDevice("bob1", DeviceType.WorkStation, 6, -1));
+            network.Add(makeDevice("bob2", DeviceType.WorkStation, 6, 1));
+            network.Add(makeDevice("bob2", DeviceType.WorkStation, 7, 1));
+            network.Add(makeDevice("bob3", DeviceType.WorkStation, 7, 2));
+            network.Add(makeDevice("bob4", DeviceType.WorkStation, 6, 2));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 6, 4));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 7, 4));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 7, 5));
+            network.Add(makeDevice("bob5", DeviceType.WorkStation, 6, 5));
 
 
 
@@ -167,13 +167,13 @@ namespace Terr01
 
 
             //  wireing closet
-            network.Add(makeDevice("ralf", DeviceType.Router, -36, -51));
-            network.Add(makeDevice("ralf", DeviceType.Router, -37, -51));
-            network.Add(makeDevice("ralf", DeviceType.Router, -38, -51));
+            network.Add(makeDevice("ralf", DeviceType.Router, -3, -2));
+            network.Add(makeDevice("ralf", DeviceType.Router, -2, -2));
+            network.Add(makeDevice("ralf", DeviceType.Router, -1, -2));
 
-            network.Add(makeDevice("alfs", DeviceType.Switch, -38, -49));
-            network.Add(makeDevice("alfs", DeviceType.Switch, -37, -49));
-            network.Add(makeDevice("alfs", DeviceType.Switch, -36, -49));
+            network.Add(makeDevice("alfs", DeviceType.Switch, 4, 1));
+            network.Add(makeDevice("alfs", DeviceType.Switch, 3, 1));
+            network.Add(makeDevice("alfs", DeviceType.Switch, 2, 1));
 
 
 
