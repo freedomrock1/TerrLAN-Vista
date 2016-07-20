@@ -127,13 +127,11 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         {
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
-            Debug.Log("Locking cursor");
         }
         else if(!menu)
         {
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
-            Debug.Log("Unlocking cursor");
         }
         player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;
         menu = !menu;
@@ -164,7 +162,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             {
                 actualLength++;
                 buttonList[p] = Instantiate(button);
-                buttonList[p].transform.SetParent(scrollView.transform, false);
+                buttonList[p].transform.parent = scrollView.transform;
                 buttonList[p].GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -75 - buttonList[p].GetComponent<RectTransform>().sizeDelta.y * actualLength);
                 buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
                 //string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);

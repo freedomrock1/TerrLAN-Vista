@@ -24,73 +24,84 @@ public class UIcontroller : MonoBehaviour {
         modelPosition = new GameObject();
         modelPosition.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - .5f, this.gameObject.transform.position.z);
         modelPosition.transform.Translate(this.gameObject.transform.forward*1.5f, this.gameObject.transform);
-        modelPosition.transform.SetParent(this.gameObject.transform, false);
+        modelPosition.transform.parent = this.gameObject.transform;
+        modelPosition.name = "modelPosition";
     }
 	
 	// Update is called once per frame
 	void Update () {
-        collisions.Clear();
-        Collider[] temp = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
-        foreach(Collider co in temp)
+        if(!isMoved)
         {
-            collisions.Add(co);
-        }
+            collisions.Clear();
+            Collider[] temp = Physics.OverlapSphere(feetPosition.transform.position, 0.25f);
+            foreach (Collider co in temp)
+            {
+                collisions.Add(co);
+            }
 
-        bool touchingFloor = false;
-        foreach (Collider c in collisions)
-        {
-            if (c.gameObject.name.Contains("Floor"))
+            bool touchingFloor = false;
+            foreach (Collider c in collisions)
             {
-                touchingFloor = true;
-            }
-        }
-        if(mapVisible)
-        {
-            if(!touchingFloor)
-            {
-                UnloadMinimap(ref minimap, ref minimapBuilding);
-                mapVisible = false;
-            }
-            else
-            {
-                Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
-                RaycastHit[] hitList = Physics.RaycastAll(ray);
-                foreach(RaycastHit hit in hitList)
+                if (c.gameObject.name.Contains("Floor"))
                 {
-                    if(hit.collider.gameObject.name.Contains("Floor") && Vector3.Distance(this.gameObject.transform.position, hit.point) < 10)
+                    touchingFloor = true;
+                }
+            }
+            if (mapVisible)
+            {
+                if (!touchingFloor)
+                {
+                    UnloadMinimap(ref minimap, ref minimapBuilding);
+                    mapVisible = false;
+                }
+                else
+                {
+                    Ray ray = new Ray(this.gameObject.GetComponentInChildren<Camera>().transform.position, Vector3.down);
+                    RaycastHit[] hitList = Physics.RaycastAll(ray);
+                    foreach (RaycastHit hit in hitList)
                     {
-                        Vector3 output = new Vector3(hit.point.x - hit.collider.gameObject.transform.position.x, hit.point.y - hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
-                        output.x = output.x / minimapBuilding.transform.localScale.x;
-                        output.y = output.y / minimapBuilding.transform.localScale.y;
-                        output.z = output.z / minimapBuilding.transform.localScale.z;
-                        placementMarker.transform.position = new Vector3(minimap.transform.position.x + output.x, minimap.transform.position.y, minimap.transform.position.z + output.z);
+                        if (hit.collider.gameObject.name.Contains("Floor") && Vector3.Distance(this.gameObject.transform.position, hit.point) < 10)
+                        {
+                            Vector3 output = new Vector3(hit.point.x - hit.collider.gameObject.transform.position.x, hit.point.y - hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
+                            output.x = output.x / minimapBuilding.transform.localScale.x;
+                            output.y = output.y / minimapBuilding.transform.localScale.y;
+                            output.z = output.z / minimapBuilding.transform.localScale.z;
+                            placementMarker.transform.position = new Vector3(minimap.transform.position.x + output.x, minimap.transform.position.y, minimap.transform.position.z + output.z);
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            if(touchingFloor)
+            else
             {
-                LoadMinimap(ref minimap, ref minimapBuilding);
-                mapVisible = true;
+                if (touchingFloor)
+                {
+                    LoadMinimap(ref minimap, ref minimapBuilding);
+                    mapVisible = true;
+                }
             }
         }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Ray downRay = new Ray(this.gameObject.transform.position, Vector3.down);
-            RaycastHit hit;
-            Physics.Raycast(downRay, out hit);
-            while(hit.collider.gameObject.tag == "Player")
+            if(isMoved)
             {
+                Materialize(ref model);
+            }
+            else
+            {
+                Ray downRay = new Ray(this.gameObject.transform.position, Vector3.down);
+                RaycastHit hit;
                 Physics.Raycast(downRay, out hit);
+                while (hit.collider.gameObject.tag == "Player")
+                {
+                    Physics.Raycast(downRay, out hit);
+                }
+                if (hit.collider.gameObject.transform.GetChild(0).tag == "teleportModel" | hit.collider.gameObject.transform.GetChild(0).name.Contains("Model"))
+                {
+                    model = hit.collider.gameObject.transform.GetChild(0).gameObject;
+                }
+                Materialize(ref model);
             }
-            if(hit.collider.gameObject.transform.GetChild(0).tag == "teleportModel" | hit.collider.gameObject.transform.GetChild(0).name.Contains("Model"))
-            {
-                model = hit.collider.gameObject.transform.GetChild(0).gameObject;
-            }
-            Materialize(ref model);
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse0))
@@ -127,7 +138,7 @@ public class UIcontroller : MonoBehaviour {
             }
         }
         ChildMeshToggle(ref minimap);
-        minimap.transform.SetParent(minimapPosition.transform, false);
+        minimap.transform.parent = minimapPosition.transform;
         minimap.transform.position = minimapPosition.transform.position;
         //minimap.transform.localScale = new Vector3(1, .4f, 1);
         foreach(Transform t in minimap.transform.GetComponentsInChildren<Transform>())
@@ -136,7 +147,7 @@ public class UIcontroller : MonoBehaviour {
         }
         placementMarker = Instantiate(placementSphere);
         placementMarker.layer = 8;
-        placementMarker.transform.SetParent(minimap.transform, false);
+        placementMarker.transform.parent = minimap.transform;
     }
 
     void UnloadMinimap(ref GameObject minimap, ref GameObject minimapBuilding)
@@ -189,7 +200,7 @@ public class UIcontroller : MonoBehaviour {
             isMoved = false;
             RaycastHit hit;
             Physics.Raycast(new Ray(model.transform.position, Vector3.down), out hit);
-            model.transform.SetParent(hit.collider.gameObject.transform, false);
+            model.transform.parent = hit.collider.gameObject.transform;
             model.transform.position = hit.point;
             model.transform.rotation = Quaternion.identity;
             model = null;
@@ -232,7 +243,7 @@ public class UIcontroller : MonoBehaviour {
             {
                 GameObject pointer = new GameObject();
                 pointer.transform.position = h.point;
-                pointer.transform.SetParent(model.transform, false);
+                pointer.transform.parent = model.transform;
                 model.transform.rotation = Quaternion.identity;
                 Vector3 output = new Vector3(pointer.transform.position.x - h.collider.gameObject.transform.position.x, pointer.transform.position.y - h.collider.gameObject.transform.position.y, pointer.transform.position.z - h.collider.gameObject.transform.position.z);
                 output.x = output.x * building.transform.localScale.x;
