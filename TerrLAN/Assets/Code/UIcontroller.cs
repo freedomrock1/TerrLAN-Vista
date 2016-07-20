@@ -60,7 +60,6 @@ public class UIcontroller : MonoBehaviour {
                     if(hit.collider.gameObject.name.Contains("Floor") && Vector3.Distance(this.gameObject.transform.position, hit.point) < 10)
                     {
                         Vector3 output = new Vector3(hit.point.x - hit.collider.gameObject.transform.position.x, hit.point.y - hit.collider.gameObject.transform.position.y, hit.point.z - hit.collider.gameObject.transform.position.z);
-                        Debug.Log(output.x + "," + output.y + "," + output.z);
                         output.x = output.x / minimapBuilding.transform.localScale.x;
                         output.y = output.y / minimapBuilding.transform.localScale.y;
                         output.z = output.z / minimapBuilding.transform.localScale.z;
@@ -125,7 +124,6 @@ public class UIcontroller : MonoBehaviour {
                     temp = temp.transform.parent.gameObject;
                 }
                 minimapBuilding = temp;
-                Debug.Log("minimap assigned");
             }
         }
         ChildMeshToggle(ref minimap);
@@ -146,7 +144,6 @@ public class UIcontroller : MonoBehaviour {
         Destroy(minimap);
         minimapBuilding = null;
         Destroy(placementMarker);
-        Debug.Log("Minimap unassigned");
     }
 
     void Materialize(ref GameObject model)

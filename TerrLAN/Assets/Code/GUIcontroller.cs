@@ -3,6 +3,7 @@ using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
 using System.IO;
 using UnityEngine.UI;
+using System.Windows.Forms;
 
 
 public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
@@ -10,6 +11,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
     public GameObject player;
     public GameObject scrollView;
     public GameObject button;
+    private bool menu;
     float yOffset;
     GameObject placingObject;
     FileInfo[] fileInfo;
@@ -18,7 +20,8 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 
 	// Use this for initialization
 	void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
+        menu = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
         RefreshFileList();
         yOffset = 0;
@@ -26,13 +29,17 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 	
 	// Update is called once per frame
 	void Update () {
+        if(!menu)
+        {
+            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(UnityEngine.Screen.width/2, UnityEngine.Screen.height/2);
+        }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleGUI();
         }
         if(placingObject != null)
         {
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButton(0))
             {
                 GameObject tempPlaced = Instantiate(placingObject);
                 BoxCollider[] colliderList;
@@ -116,16 +123,20 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             Time.timeScale = 1;
         }
         else Time.timeScale = 0;
-        if (Cursor.lockState == CursorLockMode.Locked)
+        if (menu)
         {
-            Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+            Debug.Log("Locking cursor");
         }
-        else
+        else if(!menu)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
+            Debug.Log("Unlocking cursor");
         }
-        Cursor.visible = !Cursor.visible;
         player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;
+        menu = !menu;
     }
 
     void ToggleActiveGUI(GameObject element)
@@ -139,7 +150,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 
     void RefreshFileList()
     {
-        string[] fileInfoStrings = Directory.GetFiles(Application.dataPath + "/Resources");
+        string[] fileInfoStrings = Directory.GetFiles(UnityEngine.Application.dataPath + "/Resources");
         FileInfo[] fileInfo = new FileInfo[fileInfoStrings.Length];
         for (int i = 0; i < fileInfoStrings.Length; i++)
         {
@@ -158,7 +169,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 buttonList[p].GetComponentInChildren<Text>().text = fileInfo[p].Name;
                 //string temp = fileInfo[p].Name.Replace(fileInfo[p].Extension, null);
                 int temp = p;
-                buttonList[p].GetComponent<Button>().onClick.AddListener(delegate { LoadResource(temp, fileInfo); });
+                buttonList[p].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate { LoadResource(temp, fileInfo); });
                 buttonList[p].gameObject.SetActive(!buttonList[p].gameObject.active);
             }
         }
