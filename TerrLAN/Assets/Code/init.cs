@@ -10,8 +10,8 @@ public class init : MonoBehaviour {
        // instance.transform.position = new Vector3(transform.position.x , 0.15f, transform.position.z );
 
         // load floor plan
-        GameObject floorplan = Instantiate(Resources.Load("Floor Plan", typeof(GameObject))) as GameObject;
-        floorplan.transform.position = new Vector3(transform.position.x, 0.15f, transform.position.z);
+//        GameObject floorplan = Instantiate(Resources.Load("Floor Plan", typeof(GameObject))) as GameObject;
+       // floorplan.transform.position = new Vector3(transform.position.x, 0.15f, transform.position.z);
         // load network 
 
 
