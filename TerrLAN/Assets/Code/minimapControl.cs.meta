@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: f013ed4aa59ef474f91e2bb0c7a3c047
-timeCreated: 1467176524
+timeCreated: 1469123048
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - minimapPosition: {instanceID: 0}
+  - feetPosition: {instanceID: 0}
+  - placementSphere: {fileID: 165132, guid: 5a3d93c80b4cd864e8348453f2015ff0, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -9,11 +9,11 @@ using System.Windows.Forms;
 public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 
     public GameObject player;
-    public GameObject scrollView;
-    public GameObject button;
+    public GameObject scrollView; //scrollview object under a canvas for loading of buttons
+    public GameObject button; //premake the buttons into prefabs, it just makes it easier
     private bool menu;
-    float yOffset;
-    GameObject placingObject;
+    float yOffset; //value used to adjust height of placed buildings. Likely to be scrapped when more reliable buildings that can place themselves properly are imported
+    GameObject placingObject; //temp gameobject used for placing a new building
     FileInfo[] fileInfo;
     GameObject[] buttonList;
 
@@ -30,16 +30,22 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
 	// Update is called once per frame
 	void Update () {
         if(!menu)
-        {
+        {//a hacked together way of keeping the dang mouse cursor locked when the menu is closed, since unity's cursorlockmode functions flat out don't work
             System.Windows.Forms.Cursor.Position = new System.Drawing.Point(UnityEngine.Screen.width/2, UnityEngine.Screen.height/2);
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleGUI();
+            if(placingObject != null)
+                ToggleGUI();//opens gui, naturally
+            else
+            {
+                placingObject = null;
+                ToggleGUI();
+            }
         }
         if(placingObject != null)
-        {
-            if(Input.GetMouseButton(0))
+        {//run this code if we're putting a building down
+            if(Input.GetMouseButton(0))//if you click, you place.
             {
                 GameObject tempPlaced = Instantiate(placingObject);
                 BoxCollider[] colliderList;
@@ -56,7 +62,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 placingObject = null;
                 yOffset = 0;
             }
-            else
+            else//calculates position via ray and height via offset, changeable by scrolling the mousewheel
             {
                 Ray ray = new Ray(player.GetComponentInChildren<Camera>().transform.position, player.GetComponentInChildren<Camera>().transform.forward);
                 RaycastHit hit;
@@ -79,7 +85,7 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
         }
 	}
 
-    void LoadResource(int index, FileInfo[] fileInfo)
+    void LoadResource(int index, FileInfo[] fileInfo)//loads a building from a file. This process will have to modified to use the WWW class when a website for loading files is established
     {
         if(fileInfo[index].Extension == "")
         {
@@ -109,22 +115,22 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
                 b.enabled = false;
             }
         }
-        ToggleGUI();
+        ToggleGUI();//automatically closes menu for placing of building
     }
 
     public void ToggleGUI()
     {
         for (int i = 0; i < this.gameObject.transform.childCount; i++)
-        {
+        {//toggles active state of all gui elements, hiding hud and showing disabled gui windows
             this.gameObject.transform.GetChild(i).gameObject.SetActive(!this.gameObject.transform.GetChild(i).gameObject.activeSelf);
         }
         if (Time.timeScale == 0)
-        {
+        {//pauses time, for the most part
             Time.timeScale = 1;
         }
         else Time.timeScale = 0;
         if (menu)
-        {
+        {//the code that was supposed to lock the cursor. peh.
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
         }
@@ -133,20 +139,11 @@ public class GUIcontroller : MonoBehaviour {//attach to canvas of GUI
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
         }
-        player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;
+        player.GetComponent<FirstPersonController>().enabled = !player.GetComponent<FirstPersonController>().enabled;//pauses fps to prevent looking around. might have to be modified with the use of other controllers on the player
         menu = !menu;
     }
 
-    void ToggleActiveGUI(GameObject element)
-    {
-        element.SetActive(!element.activeSelf);
-        for (int i = 0; i < element.gameObject.transform.childCount; i++)
-        {
-            ToggleActiveGUI(this.gameObject.transform.GetChild(i).gameObject);
-        }
-    }
-
-    void RefreshFileList()
+    void RefreshFileList()//reloads all files in the resource directory. Ideally files will be loaded from a website for the final product, at which time this process will have to be changed as well
     {
         string[] fileInfoStrings = Directory.GetFiles(UnityEngine.Application.dataPath + "/Resources");
         FileInfo[] fileInfo = new FileInfo[fileInfoStrings.Length];
