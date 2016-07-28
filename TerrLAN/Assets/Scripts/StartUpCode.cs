@@ -11,7 +11,7 @@ public class StartUpCode : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		newModel = new Model();
-		newModel.loadNet();
+		newModel.loadNetFile("");
 
         SpawnObjects();
 	}
