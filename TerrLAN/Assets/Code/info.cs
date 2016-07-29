@@ -6,8 +6,10 @@ public class info : MonoBehaviour {
     public string city;
     public string building;
     public string nextScene;
+    public string strFloorplan;
+    public string strNetwork;
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
         Application.LoadLevel(nextScene);
 	}
