@@ -6,7 +6,7 @@ public class StartUpCode : MonoBehaviour {
 
 	public Model newModel;
 
-	public GameObject WindowsWorkstation, LinixWorkstation, Printer, Router, Switch, Firewall; 
+	public GameObject WindowsWorkstation, LinixWorkstation, Printer, Router, Switch, Firewall, FloorPlan; 
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +21,7 @@ public class StartUpCode : MonoBehaviour {
 	}
 
 	void SpawnObjects (){
+        Instantiate(FloorPlan, new Vector3(0, 0, 0), this.transform.rotation);
 		foreach (Terr01.Device d in newModel.network) {
 			GameObject hold;
 			switch (d.type) {
