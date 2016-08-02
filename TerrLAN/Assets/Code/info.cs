@@ -6,7 +6,7 @@ public class info : MonoBehaviour {
     public string city;
     public string building;
     public string nextScene;
-    public string strFloorplan;
+    public string strFloorPlan;
     public string strNetwork;
 
     // Use this for initialization

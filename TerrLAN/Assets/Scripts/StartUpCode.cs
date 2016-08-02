@@ -6,12 +6,27 @@ public class StartUpCode : MonoBehaviour {
 
 	public Model newModel;
 
-	public GameObject WindowsWorkstation, LinixWorkstation, Printer, Router, Switch, Firewall, FloorPlan; 
+	public GameObject WindowsWorkstation, LinixWorkstation, Printer, Router, Switch, Firewall;
+
+    string floorPlan, networkPlan;
 
 	// Use this for initialization
 	void Start () {
-		newModel = new Model();
-		newModel.loadNetFile("");
+
+        GameObject info = GameObject.FindWithTag("Information");
+
+        floorPlan = info.GetComponent<info>().strFloorPlan;
+        networkPlan = info.GetComponent<info>().strNetwork;
+
+        newModel = new Model();
+        if (networkPlan != "")
+        {
+            newModel.loadNetFile(networkPlan + ".csv");
+        }
+        else
+        {
+            newModel.loadNetFile("");
+        }
 
         SpawnObjects();
 	}
@@ -21,7 +36,14 @@ public class StartUpCode : MonoBehaviour {
 	}
 
 	void SpawnObjects (){
-        Instantiate(FloorPlan, new Vector3(0, 0, 0), this.transform.rotation);
+        if (floorPlan != "")
+        {
+            Instantiate(Resources.Load(floorPlan) as GameObject, new Vector3(0, 0, 0), this.transform.rotation);
+        }
+        else
+        {
+            Instantiate(Resources.Load("FloorPlan1") as GameObject, new Vector3(0, 0, 0), this.transform.rotation);
+        }
 		foreach (Terr01.Device d in newModel.network) {
 			GameObject hold;
 			switch (d.type) {
