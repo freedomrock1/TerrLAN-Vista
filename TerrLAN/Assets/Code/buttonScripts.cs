@@ -17,4 +17,11 @@ public class buttonScripts : MonoBehaviour {
     {
         Application.LoadLevel(s);
     }
+
+    public void SetDestinationCity(string s)
+    {
+        info infoObject = GameObject.Find("info").GetComponent<info>();
+        infoObject.city = s;
+        Application.LoadLevel("City Map");
+    }
 }
