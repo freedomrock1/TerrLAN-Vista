@@ -10,10 +10,10 @@ public class infoTester : MonoBehaviour {
         Text text = this.gameObject.GetComponent<Text>();
         GameObject info = GameObject.Find("info");
         if(Application.loadedLevelName == "prelan-vista")
-            text.text = "City: " + info.GetComponent<info>().city + "\n" + "Building: " + info.GetComponent<info>().building + "\nClick anywhere to proceed to lan-vista";
+            text.text = "City: " + info.GetComponent<info>().city + "\n" + "Building: " + info.GetComponent<info>().buildingNum + "\nClick anywhere to proceed to lan-vista";
         else
         {
-            text.text = "City: " + info.GetComponent<info>().city + "\n" + "Building: " + info.GetComponent<info>().building;
+            text.text = "City: " + info.GetComponent<info>().city + "\n" + "Building: " + info.GetComponent<info>().buildingNum;
         }
 	}
 	
